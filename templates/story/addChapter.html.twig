@@ -1,0 +1,9 @@
+<div>
+
+    <form action="{{ path('chapter.add', {'story': story.id}) }}" method="post">
+        <textarea name="_content" id="content" class="form-control"></textarea>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">   
+        <input type="submit" value="Publier" class="submit2"/>
+    </form>
+
+</div>

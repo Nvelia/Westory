@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %} {% block body %} {% if app.user %} {% endif %} {%
+for message in app.flashes('info') %}
+<div class="flashbag">{{ message }}</div>
+{% endfor %}
+
+<div class="homeBg">
+  <h2>Bienvenue sur Westory</h2>
+  <p>
+    Ecrivez, lisez et partagez vos histoires à plusieurs.
+    <br />
+    Votez chaque jour pour élire le chapitre de votre choix afin de poursuivre
+    l'histoire débutée.
+    <br />
+    <a href="{{ path('story.inprogress') }}" class="homeBtnToStories">
+      Voir les histoires
+    </a>
+  </p>
+</div>
+{% endblock %}

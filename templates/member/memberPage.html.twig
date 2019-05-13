@@ -1,0 +1,91 @@
+{% extends "menu.html.twig" %} {% block title %}Westory - Page de
+{{ memberInfo.username }} {% endblock %} {% block westory_body %}
+<div class="bodyPage container">
+  <h2>Page de {{ memberInfo.username | capitalize }}</h2>
+  <div class="memberInfos">
+    {% if memberInfo.imageName is null %}
+    <span
+      ><img src="/images/avatars/empty.png"|imagine_filter('thumb')
+      alt="utilisateur sans avatar" class="avatar"/></span
+    >
+    {% else %}
+    <span
+      ><img
+        class="avatar"
+        src="{{ vich_uploader_asset(memberInfo, 'imageFile') |imagine_filter('thumb') }}"
+        alt="avatar de l'utilisateur"
+    /></span>
+    {% endif %}
+    <div>
+      <h6 class="userName">
+        {{ memberInfo.username | capitalize }}
+        <span class="votes"
+          ><i class="fas fa-star"></i> {{ memberInfo.votesReceived }} vote(s)
+          reçu(s)</span
+        >
+      </h6>
+      <p>
+        <em class="registerDate"
+          >Inscrit le
+          {{ memberInfo.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}</em
+        >
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <h3>Chapitres</h3>
+    {{ form_start(formOrder) }}
+    {{ form_widget(formOrder.isValid, {'attr': {'class': 'isValid'}}) }}
+    {{ form_widget(formOrder.story, {'attr': {'class': 'form-control' }}) }}
+    {{ form_widget(formOrder.submit, {'attr': {'class': 'submitChapterSelect'}})
+    }}
+    {{ form_end(formOrder) }}
+    {% if memberPosts is not empty %}
+    <div class="chapterSelected">
+      {% for post in memberPosts %}
+      <p>{{ post.content }}</p>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="chapterSearchContent">
+      Aucun chapitres dans l'histoire sélectionée.
+    </p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h3>Histoires créées</h3>
+    <div class="storyContainer">
+      {% if memberStories is not empty %} {% for story in memberStories %}
+      <div class="story">
+        <div>
+          <h4 class="storyTitle">
+            <a href="{{ path('story.view', { id: story.id }) }}">{{
+              story.title
+            }}</a>
+          </h4>
+          <div>
+            <em class="storyDate">
+              Débutée le
+              {{ story.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}</em
+            >
+          </div>
+        </div>
+
+        <div class="chaptersProgress">
+          <div class="bookmark">
+            <div>Chap.</div>
+            <div>{{ story.chapterNumber }}</div>
+            <div>/</div>
+            <div>{{ story.chapterLimit }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <p>Aucune histoire créee.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %} {% block title %}
+{{ parent() }}
+{% endblock %} {% block body %}
+<div class="container-fluid menuBanner">
+  <ul>
+    <li>
+      <a class="menuLinks" href="{{ path('home') }}">
+        <i class="fas fa-home"></i>
+        <span>Accueil</span>
+      </a>
+    </li>
+    <li>
+      <a class="menuLinks" href="{{ path('story.inprogress') }}">
+        <i class="fas fa-book-open"></i>
+        <span>Histoires en cours</span>
+      </a>
+    </li>
+    <li>
+      <a class="menuLinks" href="{{ path('story.finished') }}">
+        <i class="fas fa-book"></i>
+        <span>Histoires terminées</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+{# On définit un nouveau bloc, que les vues du bundle pourront remplir #} {%
+block westory_body %} {% endblock %} {% endblock %}

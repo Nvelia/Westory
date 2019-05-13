@@ -1,0 +1,44 @@
+<div>
+  {% if app.user %}
+  <ul class="loginMenu">
+    <li>
+      <a href="{{ path('user.area') }}">Espace Personnel</a>
+    </li>
+    <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+  </ul>
+
+  {% else %}
+  <ul class="loginMenu">
+    <li><a href="#" id="loginBtn">Connexion</a></li>
+    <li><a href="{{ path('register') }}">Inscription</a></li>
+  </ul>
+
+  {% endif %}
+</div>
+
+<div class="loginPanel" id="loginForm">
+  <div class="loginForm">
+    <span>&#10005;</span>
+    <h4>Se connecter à WeStory</h4>
+
+    <form action="{{ path('login') }}" method="post">
+      <div class="input-field col s12">
+        <input id="username" name="_username" type="text" />
+        <label for="username">Identifiant</label>
+      </div>
+      <div class="input-field col s12">
+        <input id="password" name="_password" type="password" />
+        <label for="password">Password</label>
+      </div>
+      <p class="forgottenPasswordLink">
+        <a href="{{ path('pass.forgotten') }}">Mot de passe oublié?</a>
+      </p>
+      <button type="submit">Se connecter</button>
+    </form>
+  </div>
+  <div class="welcomeMsg">
+    <h4>Bienvenue !</h4>
+    <p>Vous êtes nouveau sur WeStory ?</p>
+    <p><a href="{{ path('register') }}">Inscrivez-vous !</a></p>
+  </div>
+</div>

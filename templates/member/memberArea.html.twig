@@ -1,0 +1,106 @@
+{% extends "menu.html.twig" %} {% block title %}Westory - Espace Personnel{%
+endblock %} {% block westory_body %} {% for message in app.flashes('info') %}
+<div class="flashbag">{{ message }}</div>
+{% endfor %}
+
+<div class="bodyPage container">
+  <h2>Espace personnel</h2>
+  <div class="memberInfos">
+    {% if app.user.imageName is null %}
+    <a href="#"
+      ><img src="/images/avatars/empty.png"|imagine_filter('thumb')
+      alt="utilisateur sans avatar" class="avatar"/></a
+    >
+    {% else %}
+    <a href="#"
+      ><img
+        src="{{ vich_uploader_asset(app.user, 'imageFile') |imagine_filter('thumb') }}"
+        alt="avatar de l'utilisateur"
+        class="avatar"
+    /></a>
+    {% endif %}
+
+    <div>
+      <h6 class="userName">
+        {{ app.user.username | capitalize }}
+        <span class="votes"
+          ><i class="fas fa-star"></i> {{ app.user.votesReceived }} vote(s)
+          reçu(s)</span
+        >
+      </h6>
+      <p>
+        <em class="registerDate"
+          >Inscrit le
+          {{app.user.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y')}}</em
+        >
+      </p>
+      <div class="modifyPersonnal">
+        <a href="{{ path('pass.reset') }}">
+          <i class="fas fa-cogs"></i> Modifier le mot de passe</a
+        >
+        <br />
+        <a href="#" id="displayAvatarForm"
+          ><i class="fas fa-cogs"></i> Modifier l'avatar</a
+        >
+      </div>
+    </div>
+    <div id="changeAvatar">
+      {{ form(formAvatar) }}
+    </div>
+  </div>
+
+  <div>
+    <h3>Chapitres</h3>
+    {{ form_start(form) }}
+    {{ form_widget(form.isValid, {'attr': {'class': 'isValid'}}) }}
+    {{ form_widget(form.story, {'attr': {'class': 'form-control' }}) }}
+    {{ form_widget(form.submit, {'attr': {'class': 'submitChapterSelect'}}) }}
+    {{ form_end(form) }}
+    {% if userPosts is not empty %}
+    <div class="chapterSelected">
+      {% for post in userPosts %}
+      <p>{{ post.content }}</p>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="chapterSearchContent">
+      Aucun chapitres dans l'histoire sélectionée.
+    </p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h3>Histoires créées</h3>
+    <div class="storyContainer">
+      {% if userStories is not empty %} {% for story in userStories %}
+      <div class="story">
+        <div>
+          <h4 class="storyTitle">
+            <a href="{{ path('story.view', { id: story.id }) }}">{{
+              story.title
+            }}</a>
+          </h4>
+          <div>
+            <em class="storyDate">
+              Débutée le
+              {{ story.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}</em
+            >
+          </div>
+        </div>
+
+        <div class="chaptersProgress">
+          <div class="bookmark">
+            <div>Chap.</div>
+            <div>{{ story.chapterNumber }}</div>
+            <div>/</div>
+            <div>{{ story.chapterLimit }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <p>Aucune histoire créee.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

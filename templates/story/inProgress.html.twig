@@ -1,0 +1,77 @@
+{% extends 'menu.html.twig' %} {% block title %}Westory - Liste des histoires{%
+endblock %} {% block westory_body %}
+
+<div class="container">
+  <div class="input-field col s12">
+    <input id="myTextField" name="_ajaxSearch" type="text" />
+    <label for="myTextField">Rechercher une histoire</label>
+    <div id="match"></div>
+  </div>
+
+  {% if app.user %}
+  <a href="{{ path('story.add') }}" class="westoryBtn"
+    ><span>Créer une histoire</span></a
+  >
+  {% endif %}
+
+  <div class="storyContainer">
+    {% for story in stories|sort|reverse %}
+
+    <div class="story">
+      <div>
+        <h4 class="storyTitle">
+          <a href="{{ path('story.view', { id: story.id }) }}">{{
+            story.title
+          }}</a>
+        </h4>
+        <div>
+          <em class="storyDate">
+            Débutée le
+            {{ story.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}
+            par
+          </em>
+          <div class="authorInfos">
+            {% if story.author.imageName is null %} <img
+            src="/images/avatars/empty.png"|imagine_filter('thumb')
+            alt="utilisateur sans avatar" class="avatarMini"/> {% else %}
+            <img
+              src="{{ vich_uploader_asset(story.author, 'imageFile') |imagine_filter('thumb') }}"
+              alt="avatar de l'utilisateur"
+              class="avatarMini"
+            />
+            {% endif %}
+            <strong
+              ><a
+                href="{{
+                  path('user.page', { member: story.author.username })
+                }}"
+                >{{ story.author.username | capitalize }}</a
+              ></strong
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="chaptersProgress">
+        <div class="bookmark">
+          <div>Chap.</div>
+          <div>{{ story.chapterNumber }}</div>
+          <div>/</div>
+          <div>{{ story.chapterLimit }}</div>
+        </div>
+      </div>
+    </div>
+
+    {% else %}
+    <div>Aucune histoire en cours.</div>
+    {% endfor %}
+  </div>
+
+  <div class="text-center">
+    <div class="pagination">
+      {{ knp_pagination_render(stories) }}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'menu.html.twig' %} {% block title %}Westory - Inscription{% endblock
+%} {% block westory_body %}
+<div class="bodyPage container">
+  <h2>Inscription</h2>
+
+  {{ form_start(form) }}
+  {{ form_errors(form) }}
+  {{ form_widget(form) }}
+  {{ form_end(form) }}
+</div>
+{% endblock %}

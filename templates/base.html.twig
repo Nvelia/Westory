@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>
+      {% block title %}WeStory - Ecrivons notre histoire{% endblock %}
+    </title>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    {% block stylesheets %}
+    {{
+      encore_entry_link_tags("app")
+    }}
+    <link rel="stylesheet" href="/build/app.css" />
+    {#
+    <link rel="stylesheet" href="/build/mobileDesign.css" />
+    <link rel="stylesheet" href="/build/tabletDesign.css" />
+    #} {% endblock %}
+  </head>
+
+  <body>
+    <header class="header container">
+      <div>
+        <a href="{{ path('home') }}" class="logo"
+          ><img src="/images/logo.png" alt="westory logo"
+        /></a>
+      </div>
+      {% include 'security/login.html.twig' %}
+    </header>
+
+    {% block body %} {% endblock %} {% block script %}
+    {{ encore_entry_link_tags("app") }}
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      type="text/javascript"
+    ></script>
+    <script src="/build/scripts/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/build/scripts/slideshow.js"></script>
+    <script src="/build/scripts/ajax.js"></script>
+
+    <script>
+      var ROOT_URL = "{{ path('home')}}";
+    </script>
+    {% endblock %}
+  </body>
+</html>

@@ -1,0 +1,164 @@
+{% extends "menu.html.twig" %} {% block title %}Westory - {{ story.title }}{%
+endblock %} {% block westory_body %} {% for message in app.flashes('info') %}
+<div class="flashbag">{{ message }}</div>
+{% endfor %}
+
+<div class="container displayStory">
+  <h2 class="titleStoryPage">{{ story.title | upper }}</h2>
+  {% if story.chapterNumber == story.chapterLimit %}
+  <a href="{{ path('story.finished') }}" class="previousPage">
+    &laquo; Retourner sur la liste des histoires
+  </a>
+  {% else %}
+  <a href="{{ path('story.inprogress') }}" class="previousPage"
+    >&laquo; Retourner sur la liste des histoires</a
+  >
+  {% endif %} {% for postValid in postsValid|sort %}
+  <div class="chapter">
+    <h6>
+      Chapitre {{ postValid.chapterNumber }} {% if postValid.chapterNumber == 1
+      %} - Introduction {% elseif postValid.chapterNumber == story.chapterLimit
+      %} - Fin{% endif %}
+    </h6>
+    <div class="post">
+      <p class="content">{{ postValid.content }}</p>
+      <div class="chapterAuthorBanner">
+        <p>
+          Ecrit par
+          <a
+            href="{{
+              path('user.page', { member: postValid.author.username })
+            }}"
+            >{{ postValid.author.username | capitalize }}</a
+          >
+          <br />
+          le
+          {{ postValid.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}
+        </p>
+        <p>
+          {% if postValid.chapterNumber != 1 %} Votes reçus:
+          {{ postValid.votes }}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="paginator">
+      {{ knp_pagination_render(postsValid) }}
+    </div>
+  </div>
+
+  {% if currentPosts is not empty and story.chapterLimit > story.chapterNumber
+  %}
+  <div class="submittedChapterBlock">
+    <button class="button left" id="prev">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="button right" id="next">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <div class="slideDiv">
+      <strong>Choisissez votre chapitre gagnant</strong>
+      {% for post in posts|sort if post.chapterNumber == (story.chapterNumber +
+      1) %}
+      <div class="slide">
+        <div class="slideMessage">
+          {% if post.reports >= 10 %}
+          <button class="hiddenReportLink">
+            Ce texte a été signalé de nombreuses fois et est par défaut masqué.
+            Cliquez ici pour l'afficher.
+          </button>
+          <p class="highReports">
+            <button class="hiddenReportCross">(masquer)</button
+            >{{ post.message }}
+          </p>
+          {% else %}
+          <p>{{ post.content }}</p>
+          {% endif %}
+        </div>
+
+        <div class="postAuthorBanner">
+          <p>
+            Ecrit par
+            <a
+              href="{{ path('user.page', { member: post.author.username }) }}"
+              >{{ post.author.username | capitalize }}</a
+            >
+            {% if app.user.username is defined and app.user.username ==
+            post.author %}
+            <a
+              href="{{ path('chapter.delete', { id: post.id }) }}"
+              class="delete"
+            >
+              <i class="fas fa-trash"></i> Supprimer la publication</a
+            >
+            {% else %}
+            <a
+              href="{{ path('chapter.report', { id: post.id }) }}"
+              class="report"
+            >
+              <i class="fas fa-exclamation-triangle"></i> Signaler la
+              publication</a
+            >
+            {% endif %}
+            <br />
+            le
+            {{ post.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}
+          </p>
+          <p>
+            Votes: <br />
+            <a href="{{ path('chapter.vote', { id: post.id }) }}" class="upvote"
+              ><i class="far fa-caret-square-up"> </i> {{ post.votes }}
+            </a>
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %} {% if app.user and story.chapterLimit > story.chapterNumber %}
+  <div id="addPost" class="addPostButton">Participer à l'histoire</div>
+  <div id="postForm">
+    {% include 'story/addChapter.html.twig' %}
+  </div>
+  {% endif %}
+
+  <h3>Commentaires</h3>
+
+  {% if app.user %}
+  <div id="addComment" class="addPostButton">Ajouter un commentaire</div>
+  <div id="commentForm">
+    {% include 'story/addComment.html.twig' %}
+  </div>
+  {% endif %} {% for comment in comments|sort|reverse %}
+  <div class="comments">
+    <em>
+      Par {{ comment.author.username | capitalize }} le
+      {{ comment.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y') }}
+      <a
+        href="{{ path('comment.report', { id: comment.id }) }}"
+        class="reportCom"
+        ><i class="fas fa-exclamation-triangle"></i> Signaler</a
+      >
+    </em>
+    {% if comment.reports >= 10 %}
+    <button class="hiddenReportLink">
+      Ce texte a été signalé de nombreuses fois et est par défaut masqué.
+      Cliquez ici pour l'afficher.
+    </button>
+    <p class="highReports">
+      <button class="hiddenReportCross">(masquer)</button>{{ post.content }}
+    </p>
+    {% else %}
+    <p>{{ comment.content }}</p>
+    {% endif %} {% if app.user %} {% if app.user.username ==
+    comment.author.username or app.user.username == story.author.username %}
+    <a href="{{ path('comment.delete', { id: comment.id }) }}" class="deleteCom"
+      >&times;</a
+    >
+    {% endif %} {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

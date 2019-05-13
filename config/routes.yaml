@@ -1,0 +1,78 @@
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+logout:
+    path: /logout
+
+register:
+    path: /inscription
+    controller: App\Controller\UserController::add
+
+pass.forgotten:
+    path: /mot-de-passe-oublié
+    controller: App\Controller\UserController:forgottenPassword
+
+pass.reset:
+    path: /profile/modifier-le-mot-de-passe
+    controller: App\Controller\UserController:resetPassword
+
+user.area:
+    path: /profile/espace-personnel
+    controller: App\Controller\UserController:viewMemberArea
+
+user.page:
+    path: /espace-membre/{member}
+    controller: App\Controller\UserController:viewMemberPage
+
+story.add:
+    path: /profile/ajouter-une-histoire
+    controller: App\Controller\StoryController::add
+
+story.inprogress:
+    path: /histoires-en-cours
+    controller: App\Controller\StoryController::viewInProgress
+
+story.finished:
+    path: /histoires-terminées
+    controller: App\Controller\StoryController::viewFinished
+
+story.view:
+    path: /histoires-en-cours/{id}
+    controller: App\Controller\StoryController:view
+
+story.autocomplete:
+    path: /autocomplete
+    controller: App\Controller\AjaxController:updateData
+
+chapter.delete:
+    path: /profile/supprimer-un-chapitre{id}
+    controller: App\Controller\ChapterController::delete
+
+chapter.vote:
+    path: /voter-un-chapitre/{id}
+    controller: App\Controller\ChapterController::vote
+
+chapter.report:
+    path: /signaler-un-chapitre{id}
+    controller: App\Controller\ChapterController::report
+
+chapter.add:
+    path: /profile/ajouter-un-chapitre/{story}
+    controller: App\Controller\ChapterController::add
+
+comment.add:
+    path: /profile/ajouter-un-commentaire/{story}
+    controller: App\Controller\CommentController:add
+
+comment.report:
+    path: /signaler-un-commentaire/{id}
+    controller: App\Controller\CommentController:report
+
+comment.delete:
+    path: /profile/supprimer-un-commentaire/{id}
+    controller: App\Controller\CommentController:delete

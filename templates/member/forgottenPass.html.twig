@@ -1,0 +1,9 @@
+{% extends "menu.html.twig" %} {% block title %}Westory - Mot de passe oublié{%
+endblock %} {% block westory_body %}
+<div class="bodyPage container">
+  <h2>Mot de passe oublié</h2>
+  {{ form_start(form) }}
+  {{ form_errors(form) }}
+  {{ form_end(form) }}
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div>
+
+    <form action="{{ path('comment.add', {'story': story.id}) }}" method="post">
+        <textarea name="_contentCom" id="contentCom" class="form-control"></textarea>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">   
+        <input type="submit" value="Publier" class="submit2"/>
+    </form>
+
+</div>

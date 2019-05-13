@@ -1,0 +1,13 @@
+{% extends "menu.html.twig" %} {% block title %}Westory - Modification du mot de
+passe{% endblock %} {% block westory_body %} {% for message in
+app.flashes('info') %}
+<div class="flashbag">{{ message }}</div>
+{% endfor %}
+
+<div class="bodyPage container">
+  <h2>Réinitialisation du mot de passe</h2>
+  {{ form_start(form) }}
+  {{ form_errors(form) }}
+  {{ form_end(form) }}
+</div>
+{% endblock %}
